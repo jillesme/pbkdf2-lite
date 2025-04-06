@@ -130,6 +130,27 @@ This approach ensures:
 - Gradual security improvements as users authenticate
 - No disruption to your authentication system
 
+## Development
+
+### Testing
+
+This library uses Vitest for testing. To run the tests:
+
+```bash
+# Run tests
+pnpm test
+
+# Run tests with coverage report
+pnpm test:coverage
+```
+
+The test suite includes comprehensive tests for all functionality with ~90% code coverage including:
+- Constructor parameter validation
+- Hash generation and verification
+- Iteration count extraction
+- Error handling
+- Module exports
+
 ## License
 
 MIT 
