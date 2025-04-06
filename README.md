@@ -86,6 +86,50 @@ The iteration count is the primary factor affecting performance. Choose a value 
 
 For Cloudflare Workers **Free Tier** with a 10ms CPU time limit, values between 20,000-80,000 are typical, depending on your specific needs.
 
+## Changing Iterations Over Time
+
+As computing power increases, you may need to increase the iteration count to maintain security. When changing iterations:
+
+### How It Works
+
+1. **Existing hashes remain unchanged** - Previously stored password hashes will continue to use their original iteration count
+2. **Automatic detection** - The verification process automatically detects the iteration count from the stored hash
+3. **Transparent upgrades** - You can implement progressive upgrades by:
+   - Verifying with the old iteration count
+   - If successful, re-hashing with the new iteration count
+   - Storing the updated hash
+
+### Example: Progressive Upgrade
+
+```typescript
+// Create hashers with old and new iteration counts
+const oldHasher = new PBKDF2Lite(60000);
+const newHasher = new PBKDF2Lite(100000);
+
+async function verifyAndUpgrade(storedHash, password) {
+  // Verify with automatically detected iterations from hash
+  const isValid = await oldHasher.verify(storedHash, password);
+  
+  if (isValid) {
+    // Get iterations from the hash using the helper method
+    const storedIterations = oldHasher.getIterationsFromHash(storedHash);
+    
+    // If using old iterations, upgrade the hash
+    if (storedIterations !== null && storedIterations < 100000) {
+      // Create new hash with higher iterations
+      return await newHasher.hash(password);
+    }
+  }
+  
+  return isValid;
+}
+```
+
+This approach ensures:
+- Backward compatibility with existing hashes
+- Gradual security improvements as users authenticate
+- No disruption to your authentication system
+
 ## License
 
 MIT 

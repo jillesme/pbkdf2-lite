@@ -83,6 +83,22 @@ export class PBKDF2Lite {
   }
 
   /**
+   * Extracts the iteration count from a hash string.
+   * 
+   * @param hashString - The hash string in the format "algorithm$iterations$salt$hash"
+   * @returns The number of iterations, or null if the hash format is invalid
+   */
+  getIterationsFromHash(hashString: string): number | null {
+    const parts = hashString.split("$");
+    if (parts.length !== 4) {
+      return null;
+    }
+    
+    const iterations = parseInt(parts[1], 10);
+    return isNaN(iterations) || iterations <= 0 ? null : iterations;
+  }
+
+  /**
    * Hashes a plaintext password using PBKDF2 with a generated salt.
    * 
    * @param password - The plaintext password to hash.
