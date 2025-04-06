@@ -1,0 +1,52 @@
+{
+  "name": "pbkdf2-lite",
+  "version": "0.1.0",
+  "description": "Lightweight PBKDF2 password hasher optimized for edge runtimes like Cloudflare Workers",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "edge",
+    "pbkdf2",
+    "hash",
+    "password",
+    "authentication",
+    "crypto",
+    "workers",
+    "cloudflare",
+    "web-crypto"
+  ],
+  "author": "Jilles Soeters <jilleswf@gmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/pbkdf2-lite"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
